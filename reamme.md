@@ -1,1 +1,1 @@
-## this program is used to kill time in my boring timg
+## this program is used to kill time in my boring
