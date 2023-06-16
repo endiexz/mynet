@@ -10,7 +10,7 @@ I_flag := $(inlcude_paths:%=-I %)
 
 workspace/exec : $(c_objs)
 	@mkdir -p $(dir $@)
-	@gcc $^ -o $@
+	@gcc $^ -lpcap -o $@ 
 
 list :
 	@echo $(c_srcs)
