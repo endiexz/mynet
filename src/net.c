@@ -253,6 +253,25 @@ net_err net_ip_in(net_packet* packet){
     return 1;
     
 }
+net_err net_ip_out(net_packet* packet, net_protocol protocol, uint8_t* ipaddr){
+    static uint16_t ip_hdr_ip_t = 0;
+    add_header(packet, sizeof(net_packet));
+    net_ip_hdr* ip_hdr_t = (net_ip_hdr*)packet;
+    ip_hdr_t->version = IP_VERSION_IPV4;
+    ip_hdr_t->hdr_len = sizeof(net_ip_hdr);
+    ip_hdr_t->typ_of_service = 0;
+    ip_hdr_t->total_len = swap_order16(packet->size);
+    ip_hdr_t->id = swap_order16(ip_hdr_ip_t);
+    ip_hdr_t->flag_fragment = 0;
+    ip_hdr_t->ttl = IP_TTL;
+    ip_hdr_t->protocol = protocol;
+    ip_hdr_t->checksum = 0;
+    memcpy(ip_hdr_t->source_ipaddr, my_ip_addr, IPV4_ADDR_SIZE);
+    memcpy(ip_hdr_t->target_ipaddr, ipaddr, IPV4_ADDR_SIZE);
+    ip_hdr_t->checksum = checksum16(ip_hdr_t,ip_hdr_t->hdr_len*4,0);
+    ip_hdr_ip_t++;
+
+}
 
 void net_init(void){
     net_addr_find(my_ip_addr, ip_str, my_mac_addr, test_eth);

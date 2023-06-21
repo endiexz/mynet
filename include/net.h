@@ -24,6 +24,7 @@
 
 
 #define IP_VERSION_IPV4                 4
+#define IP_TTL                          64
 
 
 //arp表项
@@ -40,7 +41,7 @@ typedef struct _net_arp_entry_state{
 }net_arp_entry_state;
 
 typedef struct _net_packet{
-    uint32_t size; //当前包的大小
+    uint16_t size; //当前包的大小
     uint8_t *data;//当前包的包头地址
     uint8_t payload[NET_PACKET_SIZE]; 
 }net_packet;
@@ -94,7 +95,7 @@ typedef enum _net_err{
 
 typedef enum _net_protocol{
     NET_PROTOCOL_IP = 0x0800, 
-    NET_PROTOCOL_ARP = 0x0806
+    NET_PROTOCOL_ARP = 0x0806,
 }net_protocol;
 
 net_packet *net_packet_alloc_for_send(uint32_t size);
@@ -130,6 +131,7 @@ void net_arp_entry_update(net_packet* packet);
 
 void net_ip_init(void);
 net_err net_ip_in(net_packet* packet);
+net_err net_ip_out(net_packet* packet, net_protocol protocol, uint8_t* ipaddr);
 
 void net_init(void);
 void net_arp_init(void);

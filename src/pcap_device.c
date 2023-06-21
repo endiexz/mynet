@@ -333,7 +333,7 @@ uint32_t pcap_device_read(pcap_t* pcap, uint8_t* buffer, uint32_t length) {
     } 
     else if (err == 1) {     // 1 - 成功读取数据包, 0 - 没有数据包，其它值-出错
         memcpy(buffer, pkt_data, pkthdr->len);
-        return pkthdr->len;
+        return (uint16_t)pkthdr->len;
     }
 
     fprintf(stderr, "pcap_read: reading packet failed!:%s", pcap_geterr(pcap));

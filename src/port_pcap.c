@@ -26,7 +26,7 @@ net_err net_driver_send(net_packet *packet){
 
 //读取一个定义好的包
 net_err net_driver_read(net_packet** packet){
-    uint32_t size;
+    uint16_t size;
     net_packet *r_packet = net_packet_alloc_for_read(NET_PACKET_SIZE);
     size = pcap_device_read(pcap, r_packet->data, NET_PACKET_SIZE);
     if(size){

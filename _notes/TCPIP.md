@@ -25,6 +25,20 @@ IP具有无连接：每个IP包相互独立
 
 要注意的是TCP/IP首部中所有的	二进制都要采用 big endian （大端法）进行传输
 
+### TOS字段
+
+type of service 服务类型
+前3bit弃用最后1bit必须置0中间3bit如下：
+
+1000 – minimize delay #最小延迟 对应于对延迟敏感的应用，如telnet和人login等。
+0100 – maximize throughput #最大吞吐量 对应于对吞吐量要求比较高的应用，如FTP文件应用，对文件传输吞吐量有比较高的要求。
+0010 – maximize reliability #最高可靠性 对网络传输可靠性要求高的应用，如使用SNMP的应用、路由协议等等。
+0001 – minimize monetary cost #最小费用
+0000 – normal service #一般服务、
+
+TOS常用来做QOS，用于在数据传输过程中的质量保证。
+IPv6用Traffic Class流量类别替代了IPv4中的服务质量Type of Service，TOS仅对流量进行分类，
+
 
 
 ### 子网寻址
@@ -113,5 +127,17 @@ int pcap_compile(pcap, &fp, filter_exp, 0, net)
 //int optimize:1启用优化选项，0禁用优化选项
 //net 用于指定网络接口的子网掩码是否是捕获文件的子网掩码
     
+
 ```
 
+## UDP协议
+
+
+
+udp是一个简单的面向数据报的运输协议层
+udpa不提供可靠性，它吧应用程序传给ip层的数据报发送出去，但是并不能保证他们能到达目的地
+
+udp首部：
+
+一共8字节长
+16bit源端口号     16bit目的端口号	16bitudp长度	16bitudp首部校验和
